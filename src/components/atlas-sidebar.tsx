@@ -60,6 +60,12 @@ export function AtlasSidebar() {
                       <Link to={item.url} className="flex items-center gap-2">
                         <item.icon className="h-4 w-4" />
                         {!collapsed && <span className="text-xs uppercase tracking-wider">{item.title}</span>}
+                        {item.url === "/alerts" && activeAlerts > 0 && (
+                          <span className={`ml-auto rounded-sm bg-danger px-1.5 font-mono text-[10px] text-destructive-foreground ${collapsed ? "hidden" : ""}`}
+                                style={{ backgroundColor: "var(--danger)" }}>
+                            {activeAlerts}
+                          </span>
+                        )}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

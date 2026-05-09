@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Activity, Globe2, Cpu, Landmark, BarChart3, Radio } from "lucide-react";
+import { Activity, Globe2, Cpu, Landmark, BarChart3, Radio, Bell, ScrollText } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -13,11 +13,14 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAtlasStore } from "@/lib/store";
 
 const items = [
   { title: "Command", url: "/", icon: Globe2 },
   { title: "Agent Console", url: "/agents", icon: Cpu },
   { title: "Governance", url: "/governance", icon: Landmark },
+  { title: "Alerts", url: "/alerts", icon: Bell },
+  { title: "Audit", url: "/audit", icon: ScrollText },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
 ];
 

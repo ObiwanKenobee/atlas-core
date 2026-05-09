@@ -5,6 +5,7 @@ import { PROPOSALS, type Proposal } from "@/lib/atlas-data";
 import { Button } from "@/components/ui/button";
 import { Check, X, Cpu } from "lucide-react";
 import { toast } from "sonner";
+import { atlasStore } from "@/lib/store";
 
 export const Route = createFileRoute("/governance")({
   head: () => ({
@@ -19,15 +20,38 @@ export const Route = createFileRoute("/governance")({
 function GovernanceView() {
   const [proposals, setProposals] = useState<Proposal[]>(PROPOSALS);
 
-  const vote = (id: string, kind: "yes" | "no") => {
-    setProposals((prev) =>
-      prev.map((p) => p.id === id ? { ...p, votes: { ...p.votes, [kind]: p.votes[kind] + 1 } } : p)
-    );
-    toast.success(`Vote cast`, { description: `Proposal #${id} · ${kind.toUpperCase()}` });
+  const vote = async (id: string, kind: "yes" | "no") => {
+    try {
+      const r = await fetch("/api/proposals/vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, vote: kind }),
+      });
+      if (!r.ok) throw new Error("vote rejected");
+      const data = (await r.json()) as { agentRecommendation: string };
+      setProposals((prev) =>
+        prev.map((p) => p.id === id ? { ...p, votes: { ...p.votes, [kind]: p.votes[kind] + 1 } } : p)
+      );
+      atlasStore.logAudit({
+        kind: "proposal_vote",
+        actor: "operator",
+        summary: `Vote ${kind.toUpperCase()} on proposal #${id} · agent rec: ${data.agentRecommendation}`,
+        meta: { id, kind, agentRecommendation: data.agentRecommendation },
+      });
+      toast.success(`Vote recorded`, { description: `#${id} · ${kind.toUpperCase()} · agent → ${data.agentRecommendation}` });
+    } catch {
+      toast.error("Vote failed");
+    }
   };
 
   const decide = (id: string, status: "approved" | "rejected") => {
     setProposals((prev) => prev.map((p) => p.id === id ? { ...p, status } : p));
+    atlasStore.logAudit({
+      kind: "proposal_decision",
+      actor: "operator",
+      summary: `Proposal #${id} ${status}`,
+      meta: { id, status },
+    });
     toast.success(`Proposal #${id} ${status}`);
   };
 

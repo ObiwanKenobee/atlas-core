@@ -10,18 +10,34 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as AuditRouteImport } from './routes/audit'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTelemetryRouteImport } from './routes/api/telemetry'
+import { Route as ApiSimulationRunRouteImport } from './routes/api/simulation.run'
+import { Route as ApiProposalsVoteRouteImport } from './routes/api/proposals.vote'
+import { Route as ApiAgentsStatusRouteImport } from './routes/api/agents.status'
 
 const GovernanceRoute = GovernanceRouteImport.update({
   id: '/governance',
   path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgentsRoute = AgentsRouteImport.update({
@@ -34,39 +50,114 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTelemetryRoute = ApiTelemetryRouteImport.update({
+  id: '/api/telemetry',
+  path: '/api/telemetry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSimulationRunRoute = ApiSimulationRunRouteImport.update({
+  id: '/api/simulation/run',
+  path: '/api/simulation/run',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProposalsVoteRoute = ApiProposalsVoteRouteImport.update({
+  id: '/api/proposals/vote',
+  path: '/api/proposals/vote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgentsStatusRoute = ApiAgentsStatusRouteImport.update({
+  id: '/api/agents/status',
+  path: '/api/agents/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
+  '/alerts': typeof AlertsRoute
   '/analytics': typeof AnalyticsRoute
+  '/audit': typeof AuditRoute
   '/governance': typeof GovernanceRoute
+  '/api/telemetry': typeof ApiTelemetryRoute
+  '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/proposals/vote': typeof ApiProposalsVoteRoute
+  '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
+  '/alerts': typeof AlertsRoute
   '/analytics': typeof AnalyticsRoute
+  '/audit': typeof AuditRoute
   '/governance': typeof GovernanceRoute
+  '/api/telemetry': typeof ApiTelemetryRoute
+  '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/proposals/vote': typeof ApiProposalsVoteRoute
+  '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
+  '/alerts': typeof AlertsRoute
   '/analytics': typeof AnalyticsRoute
+  '/audit': typeof AuditRoute
   '/governance': typeof GovernanceRoute
+  '/api/telemetry': typeof ApiTelemetryRoute
+  '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/proposals/vote': typeof ApiProposalsVoteRoute
+  '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agents' | '/analytics' | '/governance'
+  fullPaths:
+    | '/'
+    | '/agents'
+    | '/alerts'
+    | '/analytics'
+    | '/audit'
+    | '/governance'
+    | '/api/telemetry'
+    | '/api/agents/status'
+    | '/api/proposals/vote'
+    | '/api/simulation/run'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agents' | '/analytics' | '/governance'
-  id: '__root__' | '/' | '/agents' | '/analytics' | '/governance'
+  to:
+    | '/'
+    | '/agents'
+    | '/alerts'
+    | '/analytics'
+    | '/audit'
+    | '/governance'
+    | '/api/telemetry'
+    | '/api/agents/status'
+    | '/api/proposals/vote'
+    | '/api/simulation/run'
+  id:
+    | '__root__'
+    | '/'
+    | '/agents'
+    | '/alerts'
+    | '/analytics'
+    | '/audit'
+    | '/governance'
+    | '/api/telemetry'
+    | '/api/agents/status'
+    | '/api/proposals/vote'
+    | '/api/simulation/run'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgentsRoute: typeof AgentsRoute
+  AlertsRoute: typeof AlertsRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  AuditRoute: typeof AuditRoute
   GovernanceRoute: typeof GovernanceRoute
+  ApiTelemetryRoute: typeof ApiTelemetryRoute
+  ApiAgentsStatusRoute: typeof ApiAgentsStatusRoute
+  ApiProposalsVoteRoute: typeof ApiProposalsVoteRoute
+  ApiSimulationRunRoute: typeof ApiSimulationRunRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,11 +169,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/analytics': {
       id: '/analytics'
       path: '/analytics'
       fullPath: '/analytics'
       preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alerts': {
+      id: '/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agents': {
@@ -99,14 +204,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/telemetry': {
+      id: '/api/telemetry'
+      path: '/api/telemetry'
+      fullPath: '/api/telemetry'
+      preLoaderRoute: typeof ApiTelemetryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/simulation/run': {
+      id: '/api/simulation/run'
+      path: '/api/simulation/run'
+      fullPath: '/api/simulation/run'
+      preLoaderRoute: typeof ApiSimulationRunRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/proposals/vote': {
+      id: '/api/proposals/vote'
+      path: '/api/proposals/vote'
+      fullPath: '/api/proposals/vote'
+      preLoaderRoute: typeof ApiProposalsVoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agents/status': {
+      id: '/api/agents/status'
+      path: '/api/agents/status'
+      fullPath: '/api/agents/status'
+      preLoaderRoute: typeof ApiAgentsStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgentsRoute: AgentsRoute,
+  AlertsRoute: AlertsRoute,
   AnalyticsRoute: AnalyticsRoute,
+  AuditRoute: AuditRoute,
   GovernanceRoute: GovernanceRoute,
+  ApiTelemetryRoute: ApiTelemetryRoute,
+  ApiAgentsStatusRoute: ApiAgentsStatusRoute,
+  ApiProposalsVoteRoute: ApiProposalsVoteRoute,
+  ApiSimulationRunRoute: ApiSimulationRunRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

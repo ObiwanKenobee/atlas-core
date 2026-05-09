@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { fmtTime } from "@/lib/atlas-data";
+import { useAtlasStore } from "@/lib/store";
 
 export function TopBar() {
   const [now, setNow] = useState(() => Date.now());
+  const activeAlerts = useAtlasStore((s) => s.alerts.filter((a) => !a.ack).length);
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
@@ -16,7 +18,7 @@ export function TopBar() {
       <span>UPTIME 412:08:33</span>
       <span className="text-foreground">{fmtTime(now)}</span>
       <span>NODES 24/24</span>
-      <span className="text-warn">ALERTS 2</span>
+      <span className={activeAlerts > 0 ? "text-danger" : "text-signal"}>ALERTS {activeAlerts}</span>
     </div>
   );
 }

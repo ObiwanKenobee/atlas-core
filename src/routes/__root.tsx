@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AtlasSidebar } from "@/components/atlas-sidebar";
 import { TopBar } from "@/components/top-bar";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (

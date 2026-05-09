@@ -13,6 +13,7 @@ import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTelemetryRouteImport } from './routes/api/telemetry'
 
 const GovernanceRoute = GovernanceRouteImport.update({
   id: '/governance',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTelemetryRoute = ApiTelemetryRouteImport.update({
+  id: '/api/telemetry',
+  path: '/api/telemetry',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
   '/analytics': typeof AnalyticsRoute
   '/governance': typeof GovernanceRoute
+  '/api/telemetry': typeof ApiTelemetryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
   '/analytics': typeof AnalyticsRoute
   '/governance': typeof GovernanceRoute
+  '/api/telemetry': typeof ApiTelemetryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/agents': typeof AgentsRoute
   '/analytics': typeof AnalyticsRoute
   '/governance': typeof GovernanceRoute
+  '/api/telemetry': typeof ApiTelemetryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agents' | '/analytics' | '/governance'
+  fullPaths: '/' | '/agents' | '/analytics' | '/governance' | '/api/telemetry'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agents' | '/analytics' | '/governance'
-  id: '__root__' | '/' | '/agents' | '/analytics' | '/governance'
+  to: '/' | '/agents' | '/analytics' | '/governance' | '/api/telemetry'
+  id:
+    | '__root__'
+    | '/'
+    | '/agents'
+    | '/analytics'
+    | '/governance'
+    | '/api/telemetry'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +82,7 @@ export interface RootRouteChildren {
   AgentsRoute: typeof AgentsRoute
   AnalyticsRoute: typeof AnalyticsRoute
   GovernanceRoute: typeof GovernanceRoute
+  ApiTelemetryRoute: typeof ApiTelemetryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/telemetry': {
+      id: '/api/telemetry'
+      path: '/api/telemetry'
+      fullPath: '/api/telemetry'
+      preLoaderRoute: typeof ApiTelemetryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,7 +130,18 @@ const rootRouteChildren: RootRouteChildren = {
   AgentsRoute: AgentsRoute,
   AnalyticsRoute: AnalyticsRoute,
   GovernanceRoute: GovernanceRoute,
+  ApiTelemetryRoute: ApiTelemetryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

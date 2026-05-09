@@ -14,6 +14,7 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTelemetryRouteImport } from './routes/api/telemetry'
+import { Route as ApiSimulationRunRouteImport } from './routes/api/simulation.run'
 import { Route as ApiAgentsStatusRouteImport } from './routes/api/agents.status'
 
 const GovernanceRoute = GovernanceRouteImport.update({
@@ -41,6 +42,11 @@ const ApiTelemetryRoute = ApiTelemetryRouteImport.update({
   path: '/api/telemetry',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSimulationRunRoute = ApiSimulationRunRouteImport.update({
+  id: '/api/simulation/run',
+  path: '/api/simulation/run',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAgentsStatusRoute = ApiAgentsStatusRouteImport.update({
   id: '/api/agents/status',
   path: '/api/agents/status',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/governance': typeof GovernanceRoute
   '/api/telemetry': typeof ApiTelemetryRoute
   '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/governance': typeof GovernanceRoute
   '/api/telemetry': typeof ApiTelemetryRoute
   '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/governance': typeof GovernanceRoute
   '/api/telemetry': typeof ApiTelemetryRoute
   '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/api/telemetry'
     | '/api/agents/status'
+    | '/api/simulation/run'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/api/telemetry'
     | '/api/agents/status'
+    | '/api/simulation/run'
   id:
     | '__root__'
     | '/'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/api/telemetry'
     | '/api/agents/status'
+    | '/api/simulation/run'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   GovernanceRoute: typeof GovernanceRoute
   ApiTelemetryRoute: typeof ApiTelemetryRoute
   ApiAgentsStatusRoute: typeof ApiAgentsStatusRoute
+  ApiSimulationRunRoute: typeof ApiSimulationRunRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTelemetryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/simulation/run': {
+      id: '/api/simulation/run'
+      path: '/api/simulation/run'
+      fullPath: '/api/simulation/run'
+      preLoaderRoute: typeof ApiSimulationRunRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/agents/status': {
       id: '/api/agents/status'
       path: '/api/agents/status'
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   GovernanceRoute: GovernanceRoute,
   ApiTelemetryRoute: ApiTelemetryRoute,
   ApiAgentsStatusRoute: ApiAgentsStatusRoute,
+  ApiSimulationRunRoute: ApiSimulationRunRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

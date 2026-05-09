@@ -28,6 +28,7 @@ export function AtlasSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const path = useRouterState({ select: (r) => r.location.pathname });
+  const activeAlerts = useAtlasStore((s) => s.alerts.filter((a) => !a.ack).length);
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">

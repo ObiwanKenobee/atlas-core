@@ -9,6 +9,9 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AtlasSidebar } from "@/components/atlas-sidebar";
+import { TopBar } from "@/components/top-bar";
 
 function NotFoundComponent() {
   return (

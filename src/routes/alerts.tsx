@@ -17,7 +17,7 @@ export const Route = createFileRoute("/alerts")({
   component: AlertsView,
 });
 
-const SEV_META: Record<AlertSeverity, { color: string; Icon: React.ComponentType<{ className?: string }>; label: string }> = {
+const SEV_META: Record<AlertSeverity, { color: string; Icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>; label: string }> = {
   danger: { color: "var(--danger)", Icon: AlertTriangle, label: "CRITICAL" },
   warn:   { color: "var(--warn)",   Icon: AlertCircle,   label: "ELEVATED" },
   info:   { color: "var(--signal)", Icon: Info,          label: "INFO" },

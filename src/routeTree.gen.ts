@@ -15,6 +15,7 @@ import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTelemetryRouteImport } from './routes/api/telemetry'
 import { Route as ApiSimulationRunRouteImport } from './routes/api/simulation.run'
+import { Route as ApiProposalsVoteRouteImport } from './routes/api/proposals.vote'
 import { Route as ApiAgentsStatusRouteImport } from './routes/api/agents.status'
 
 const GovernanceRoute = GovernanceRouteImport.update({
@@ -47,6 +48,11 @@ const ApiSimulationRunRoute = ApiSimulationRunRouteImport.update({
   path: '/api/simulation/run',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProposalsVoteRoute = ApiProposalsVoteRouteImport.update({
+  id: '/api/proposals/vote',
+  path: '/api/proposals/vote',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAgentsStatusRoute = ApiAgentsStatusRouteImport.update({
   id: '/api/agents/status',
   path: '/api/agents/status',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/governance': typeof GovernanceRoute
   '/api/telemetry': typeof ApiTelemetryRoute
   '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/proposals/vote': typeof ApiProposalsVoteRoute
   '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/governance': typeof GovernanceRoute
   '/api/telemetry': typeof ApiTelemetryRoute
   '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/proposals/vote': typeof ApiProposalsVoteRoute
   '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/governance': typeof GovernanceRoute
   '/api/telemetry': typeof ApiTelemetryRoute
   '/api/agents/status': typeof ApiAgentsStatusRoute
+  '/api/proposals/vote': typeof ApiProposalsVoteRoute
   '/api/simulation/run': typeof ApiSimulationRunRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/api/telemetry'
     | '/api/agents/status'
+    | '/api/proposals/vote'
     | '/api/simulation/run'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/api/telemetry'
     | '/api/agents/status'
+    | '/api/proposals/vote'
     | '/api/simulation/run'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/api/telemetry'
     | '/api/agents/status'
+    | '/api/proposals/vote'
     | '/api/simulation/run'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   GovernanceRoute: typeof GovernanceRoute
   ApiTelemetryRoute: typeof ApiTelemetryRoute
   ApiAgentsStatusRoute: typeof ApiAgentsStatusRoute
+  ApiProposalsVoteRoute: typeof ApiProposalsVoteRoute
   ApiSimulationRunRoute: typeof ApiSimulationRunRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSimulationRunRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/proposals/vote': {
+      id: '/api/proposals/vote'
+      path: '/api/proposals/vote'
+      fullPath: '/api/proposals/vote'
+      preLoaderRoute: typeof ApiProposalsVoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/agents/status': {
       id: '/api/agents/status'
       path: '/api/agents/status'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   GovernanceRoute: GovernanceRoute,
   ApiTelemetryRoute: ApiTelemetryRoute,
   ApiAgentsStatusRoute: ApiAgentsStatusRoute,
+  ApiProposalsVoteRoute: ApiProposalsVoteRoute,
   ApiSimulationRunRoute: ApiSimulationRunRoute,
 }
 export const routeTree = rootRouteImport
